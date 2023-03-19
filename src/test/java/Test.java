@@ -1,11 +1,12 @@
-import info.uvt.gui.ExercisesFrame;
+import info.uvt.gui.ChessBoardFrame;
+import info.uvt.gui.HouseFrame;
 
 public class Test
 {
     public static void main(String[] arguments)
     {
 //        new MainFrame();
-        new ExercisesFrame(false);
-        new ExercisesFrame(true);
+        new HouseFrame();
+        new ChessBoardFrame();
     }
 }
