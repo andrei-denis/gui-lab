@@ -1,6 +1,7 @@
 package info.uvt.gui;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -55,6 +56,25 @@ public class GlUtils {
             gl.glVertex3f(squareCoordinates.get(1).x, squareCoordinates.get(1).y,0 );
             gl.glVertex3f( squareCoordinates.get(2).x,squareCoordinates.get(2).y,0 );
             gl.glVertex3f( squareCoordinates.get(3).x,squareCoordinates.get(3).y,0 );
+            gl.glEnd();
+        }
+
+        public void drawWithTexture(GL2 gl, Texture texture){
+            texture.bind(gl);
+
+            gl.glBegin(GL2.GL_QUADS);
+            // bottom-left corner
+            gl.glTexCoord2f(0.0f, 0.0f);
+            gl.glVertex3f(squareCoordinates.get(0).x, squareCoordinates.get(0).y, 0);
+            // bottom-right corner
+            gl.glTexCoord2f(1.0f, 0.0f);
+            gl.glVertex3f(squareCoordinates.get(1).x, squareCoordinates.get(1).y, 0);
+            // top-right corner
+            gl.glTexCoord2f(1.0f, 1.0f);
+            gl.glVertex3f(squareCoordinates.get(2).x, squareCoordinates.get(2).y, 0);
+            // top-left corner
+            gl.glTexCoord2f(0.0f, 1.0f);
+            gl.glVertex3f(squareCoordinates.get(3).x, squareCoordinates.get(3).y, 0);
             gl.glEnd();
         }
     }
