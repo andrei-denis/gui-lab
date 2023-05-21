@@ -4,17 +4,13 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.Animator;
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
+import info.uvt.gui.chess.*;
 
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
 
 public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListener {
 
@@ -26,8 +22,6 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
 
     private Integer windowWidth = 800;
     private Integer windowHeight = 800;
-    private Texture texture1;
-    private Texture texture2;
 
     // Define camera variables
     private float eyeX = 0.0f;      // X-coordinate of the eye position
@@ -40,8 +34,6 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
     private float pitch = 0.0f;     // Pitch angle of the camera (rotation around the X-axis)
     private float yaw = 0.0f;       // Yaw angle of the camera (rotation around the Y-axis)
     private float moveSpeed = 0.1f; // Speed of camera movement
-
-
 
     public ChessBoardFrame() {
         super("ChessBoard Exercise");
@@ -89,15 +81,6 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
         gl.glEnable(GL2.GL_COLOR_MATERIAL); // Enable coloring
     }
 
-    private void initTextures(GL2 gl){
-        try {
-            texture1 = TextureIO.newTexture(new File("Texturi/textura2.jpg"), true);
-            texture2 = TextureIO.newTexture(new File("Texturi/textura4.jpg"), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {
 
@@ -108,7 +91,6 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
         GL2 gl = glAutoDrawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
-
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         this.setPerspectiveProjection(gl);
@@ -118,6 +100,8 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
         this.setModelViewMatrix(gl);
 
         chessboard(gl);
+
+        pieces(gl);
     }
 
     private void setPerspectiveProjection(GL2 gl){
@@ -132,7 +116,7 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
 
     private void setModelViewMatrix(GL2 gl){
         float upX = 0.0f; // X-coordinate of the up vector
-        float upY = 1.0f; // Y-coordinate of the up vector
+        float upY = 2.0f; // Y-coordinate of the up vector
         float upZ = 0.0f; // Z-coordinate of the up vector
 
         glu.gluLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
@@ -216,6 +200,78 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
 
     }
 
+    private void pieces(GL2 gl){
+        float posX = -1.5f, posZ = -1.0f, posY = -0.9f;
+        float size = 0.5f;
+
+        // White
+        new Rook(posX, posY, posZ, Color.CYAN).render(gl);
+        posX += size;
+
+        new Knight(posX, posY, posZ, Color.DARK_GRAY).render(gl);
+        posX += size;
+
+        new Bishop(posX, posY, posZ, Color.GREEN).render(gl);
+        posX += size;
+
+        new Queen(posX, posY, posZ, Color.RED).render(gl);
+        posX += size;
+
+        new King(posX, posY, posZ, Color.BLUE).render(gl);
+        posX += size;
+
+        new Bishop(posX, posY, posZ, Color.GREEN).render(gl);
+        posX += size;
+
+        new Knight(posX, posY, posZ, Color.DARK_GRAY).render(gl);
+        posX += size;
+
+        new Rook(posX, posY, posZ, Color.CYAN).render(gl);
+        posX += size;
+
+        posX = -1.5f;
+        posZ += size;
+        for(int i=0; i<8; i++){
+            new Pawn(posX, posY, posZ, Color.WHITE).render(gl);
+            posX += size;
+        }
+
+        // Black
+        posZ += size *5;
+        posX = -1.5f;
+        for(int i=0; i<8; i++){
+            new Pawn(posX, posY, posZ, Color.BLACK).render(gl);
+            posX += size;
+        }
+        posZ += size;
+        posX = -1.5f;
+
+        new Rook(posX, posY, posZ, Color.CYAN).render(gl);
+        posX += size;
+
+        new Knight(posX, posY, posZ, Color.DARK_GRAY).render(gl);
+        posX += size;
+
+        new Bishop(posX, posY, posZ, Color.GREEN).render(gl);
+        posX += size;
+
+        new Queen(posX, posY, posZ, Color.RED).render(gl);
+        posX += size;
+
+        new King(posX, posY, posZ, Color.BLUE).render(gl);
+        posX += size;
+
+        new Bishop(posX, posY, posZ, Color.GREEN).render(gl);
+        posX += size;
+
+        new Knight(posX, posY, posZ, Color.DARK_GRAY).render(gl);
+        posX += size;
+
+        new Rook(posX, posY, posZ, Color.CYAN).render(gl);
+        posX += size;
+
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -274,12 +330,9 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
         eyeZ += deltaZ;
     }
 
-
-
-
-
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
+
 }
