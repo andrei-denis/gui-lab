@@ -6,6 +6,7 @@ import com.jogamp.opengl.util.texture.Texture;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GlUtils {
     public static void setGlColor(GL2 gl, Color color){
@@ -23,6 +24,21 @@ public class GlUtils {
 
         public float[] getVectorValues(){
             return (new float[]{this.x, this.y, 0});
+        }
+    }
+
+    public static class Coordinates3D extends Coordinates2D{
+
+        public Float z;
+
+        public Coordinates3D(Float x, Float y, Float z){
+            super(x, y);
+            this.z = z;
+        }
+
+        @Override
+        public float[] getVectorValues(){
+            return (new float[]{this.x, this.y, this.z});
         }
     }
 
@@ -167,6 +183,77 @@ public class GlUtils {
             triangleCoordinates.add(new GlUtils.Coordinates2D(x1, y1));
             triangleCoordinates.add(new GlUtils.Coordinates2D(x1, y2));
             triangleCoordinates.add(new GlUtils.Coordinates2D(x2, y1));
+        }
+    }
+
+    public static class DrawParallelepiped{
+        List<Coordinates3D> coordinates3DS;
+
+        /*
+         * x, y, z center pos
+         * */
+        public DrawParallelepiped(float x, float y, float z, float sizeX, float sizeY, float sizeZ){
+            float halfSizeX = sizeX/2;
+            float halfSizeY = sizeY/2;
+            float halfSizeZ = sizeZ/2;
+
+            this.coordinates3DS = new ArrayList<Coordinates3D>();
+            // front face
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z + halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z + halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z + halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z + halfSizeZ)); // bottom left
+
+            // back face
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z - halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z - halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z - halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z - halfSizeZ)); // bottom left
+
+            // left face
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z + halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z - halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z - halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z + halfSizeZ)); // bottom left
+
+            // right face
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z + halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z - halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z - halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z + halfSizeZ)); // bottom left
+
+            // top face
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z + halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y + halfSizeY, z - halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z - halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y + halfSizeY, z + halfSizeZ)); // bottom left
+
+            // bottom face
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z + halfSizeZ)); // top left
+            coordinates3DS.add(new Coordinates3D(x - halfSizeX, y - halfSizeY, z - halfSizeZ)); // top right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z - halfSizeZ)); // bottom right
+            coordinates3DS.add(new Coordinates3D(x + halfSizeX, y - halfSizeY, z + halfSizeZ)); // bottom left
+        }
+
+        public void draw(GL2 gl){
+            // Draw the cube
+            gl.glBegin(GL2.GL_QUADS);
+
+            for(int i=0 ; i<coordinates3DS.size(); i++){
+                gl.glVertex3f(coordinates3DS.get(i).x, coordinates3DS.get(i).y, coordinates3DS.get(i).z);
+            }
+
+            gl.glEnd();
+        }
+    }
+
+    public static class DrawCube extends DrawParallelepiped{
+
+        /*
+        * x, y, z center pos
+        * */
+        public DrawCube(float x, float y, float z, float size){
+            super(x, y, z, size, size, size);
         }
     }
 }
