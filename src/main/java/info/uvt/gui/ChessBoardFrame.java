@@ -3,9 +3,7 @@ package info.uvt.gui;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.Animator;
 import info.uvt.gui.chess.*;
-import net.java.joglutils.ThreeDS.Model3DS;
 
 
 import javax.swing.*;
@@ -37,7 +35,7 @@ public class ChessBoardFrame extends JFrame implements GLEventListener, KeyListe
     private float moveSpeed = 0.1f; // Speed of camera movement
 
     public ChessBoardFrame() {
-        super("ChessBoard Exercise");
+        super("GUI Project");
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

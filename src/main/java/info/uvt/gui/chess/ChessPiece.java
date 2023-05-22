@@ -67,9 +67,6 @@ public class ChessPiece {
 
         gl.glTranslatef(positionX * scalingFactor, positionY * scalingFactor, positionZ * scalingFactor);
 
-        // Apply rotation transformation
-//        gl.glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-
         this.renderObject(gl, this.model);
 
         gl.glPopMatrix();
