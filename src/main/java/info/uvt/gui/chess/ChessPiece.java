@@ -32,6 +32,31 @@ public class ChessPiece {
         this.model.load(modelPath);
     }
 
+    public ChessPiece(float positionX, float positionY, float positionZ, Color color, String modelPath, float scal) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.color = color;
+
+        this.scalingFactor = scal;
+
+        // Create an instance of the model class.
+        this.model = new Model3DS();
+        this.model.load(modelPath);
+    }
+
+    public ChessPiece(float positionX, float positionY, float positionZ, Color color, Model3DS model, float scal) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.color = color;
+
+        this.scalingFactor = scal;
+
+        // Create an instance of the model class.
+        this.model = model;
+    }
+
     // Render method
     public void render(GL2 gl) {
         // Set the material and color based on the piece's attributes
@@ -43,7 +68,7 @@ public class ChessPiece {
         gl.glTranslatef(positionX * scalingFactor, positionY * scalingFactor, positionZ * scalingFactor);
 
         // Apply rotation transformation
-        gl.glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+//        gl.glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 
         this.renderObject(gl, this.model);
 
